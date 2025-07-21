@@ -1,0 +1,11 @@
+bin/
+tmp/
+.idea
+.vscode
+.DS_Store
+
+.git/
+.gitignore
+.dockerignore
+README.md
+docs/

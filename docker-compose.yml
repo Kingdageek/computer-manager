@@ -1,0 +1,23 @@
+services:
+  app:
+    context: .
+  
+  admin-alarm:
+    image: greenbone/exercise-admin-notification
+    networks:
+      - app-net
+
+  postgres:
+    image: imageName
+    networks:
+      - app-net
+
+  redis:
+    image: imageName
+    networks:
+      - app-net
+
+networks:
+  bridge:
+    - app-net
+
