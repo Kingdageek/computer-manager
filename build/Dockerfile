@@ -16,7 +16,7 @@ RUN go mod download
 COPY . .
 COPY .env .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /app/bin ./cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o /app/bin ./main.go
 
 # Run stage for cleaner, smaller image with just compiled binary and minimal dependencies
 FROM golang:1.23-alpine AS dev
