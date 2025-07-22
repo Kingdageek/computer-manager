@@ -1,7 +1,11 @@
 package routes
 
-import "github.com/gin-gonic/gin"
+import (
+	"computer-manager/internal/controllers"
 
-func CreateRoutes(router *gin.Engine) {
+	"github.com/gin-gonic/gin"
+)
+
+func CreateRoutes(router *gin.Engine, handlers *controllers.Controllers) {
 
 }

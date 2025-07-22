@@ -2,15 +2,15 @@ package bootstrap
 
 import (
 	"computer-manager/internal/api/routes"
+	"computer-manager/internal/config"
+	"computer-manager/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )
 
-func InitializeRouter() *gin.Engine {
-	// Create a new Gin router instance
+func InitializeRouter(handlers *controllers.Controllers, cfg *config.Config) *gin.Engine {
 	router := gin.Default()
 
-	// Initialize routes
-	routes.CreateRoutes(router)
+	routes.CreateRoutes(router, handlers)
 	return router
 }
