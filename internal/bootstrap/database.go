@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func InitDB(cfg *config.Config) *gorm.DB {
+func InitializeDB(cfg *config.Config) *gorm.DB {
 	dbInstance, err := db.NewDatabase(cfg.Database)
 	if err != nil {
 		log.Fatal("Failed to initialize database",
