@@ -9,6 +9,9 @@ import (
 func main() {
 	bootstrap.LoadEnv()
 	cfg := bootstrap.InitializeConfig()
+	db := bootstrap.InitializeDB(cfg)
+	repos := bootstrap.InitializeRepos(db)
+	services := bootstrap.InitializeServices(repos, cfg)
 	router := gin.Default()
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{

@@ -1,5 +1,14 @@
 package bootstrap
 
-import "gorm.io/gorm"
+import (
+	"computer-manager/internal/repos"
+	"log"
 
-func InitializeRepos(db *gorm.DB) {}
+	"gorm.io/gorm"
+)
+
+func InitializeRepos(db *gorm.DB) *repos.Repositories {
+	repositories := repos.NewRepositories(db)
+	log.Println("Repositories initialized successfully")
+	return repositories
+}

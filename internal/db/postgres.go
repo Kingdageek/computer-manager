@@ -50,17 +50,3 @@ func NewDatabase(config config.DatabaseConfig) (*gorm.DB, error) {
 	}
 	return db, nil
 }
-
-type Migration struct {
-	ID        uint   `gorm:"primaryKey"`
-	Name      string `gorm:"type:varchar(255);uniqueIndex"`
-	AppliedAt time.Time
-}
-
-func (Migration) TableName() string {
-	return "migrations"
-}
-
-func RunMigrations(db *gorm.DB) error {
-	panic("unimplemented")
-}
