@@ -23,3 +23,11 @@ func NewBaseRepository(db *gorm.DB) *BaseRepository {
 		db: db,
 	}
 }
+
+// PickDbHandler returns the appropriate database handler based on whether a transaction is provided
+func (b *BaseRepository) PickDbHandler(tx *gorm.DB) *gorm.DB {
+	if tx != nil {
+		return tx
+	}
+	return b.db
+}
