@@ -26,5 +26,4 @@ func (c *ComputerController) Update(ginCtx *gin.Context) {}
 
 func (c *ComputerController) Delete(ginCtx *gin.Context) {}
 
-func (c *ComputerController) AssignEmployee(ginCtx *gin.Context) {
-}
+func (c *ComputerController) AssignEmployee(ginCtx *gin.Context) {}
