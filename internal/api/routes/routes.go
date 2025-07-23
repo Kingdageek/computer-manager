@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"computer-manager/internal/controllers"
+	"computer-manager/internal/api/controllers"
 
 	"github.com/gin-gonic/gin"
 )

@@ -3,7 +3,7 @@ package bootstrap
 import (
 	"computer-manager/internal/api/routes"
 	"computer-manager/internal/config"
-	"computer-manager/internal/controllers"
+	"computer-manager/internal/api/controllers"
 
 	"github.com/gin-gonic/gin"
 )

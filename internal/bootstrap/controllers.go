@@ -1,8 +1,8 @@
 package bootstrap
 
 import (
+	"computer-manager/internal/api/controllers"
 	"computer-manager/internal/config"
-	"computer-manager/internal/controllers"
 	"computer-manager/internal/services"
 	"log"
 
