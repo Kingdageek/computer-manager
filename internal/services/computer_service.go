@@ -1,9 +1,15 @@
 package services
 
 import (
+	"computer-manager/internal/api/http_errors"
 	"computer-manager/internal/dtos"
 	"computer-manager/internal/repos"
 	"context"
+	"errors"
+	"fmt"
+	"log"
+
+	"gorm.io/gorm"
 )
 
 type ComputerService struct {
@@ -19,6 +25,10 @@ func NewComputerService(repositories *repos.Repositories) *ComputerService {
 func (cs *ComputerService) GetComputerByID(ctx context.Context, id uint) (*dtos.ComputerDto, error) {
 	computer, err := cs.repo.GetComputerByID(ctx, id, nil)
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, http_errors.NewNotFoundError(fmt.Sprintf("Computer with ID %d not found", id))
+		}
+		log.Printf("Error fetching computer by ID %d: %v", id, err)
 		return nil, err
 	}
 	return computer.ToDto(), nil
