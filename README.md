@@ -1,6 +1,6 @@
 ## Computer Manager
 
-Simple backend service for system admins to manage computers in their organizations.
+Simple golang backend service for system admins to manage computers in their organizations.
 
 ### General Features
 
@@ -9,7 +9,7 @@ Simple backend service for system admins to manage computers in their organizati
 - Computers assigned to multiple employees can be fetched or filtered out via the get all computers endpoint
 - System admins will be notified if an employee has been assigned to 3 (this is configurable) or more computers
 
-### To Build
+### To Build & Run
 
 - Ensure you have `docker compose` installed
 - Ensure that ports 8000, 8081, and 54322 are free on your computer
@@ -17,13 +17,21 @@ Simple backend service for system admins to manage computers in their organizati
 - Run `docker compose up`
 - The app should be running on `localhost:8000`
 - The admin notification service should be running on `localhost:8081`
+- Postgres should be running on `localhost:54322`
+- Try the APIs on swagger by visiting: `localhost:8000/swagger/index.html`
 - The database should be auto-created and the `computers` table should auto-migrate
 
 ### Potential Improvements
 
+- **Authentication & Authorization** to verify the identity of the sysadmin and to ensure they have the proper permission to perform any action
 - **Proper pagination** in the get all computers endpoint preferably cursor-based pagination for performance
 - **Caching:** for the get computer by ID & get computer results, a caching layer would reduce latency after the first request
 - **Better error handling:** If notifying an admin fails, the error is just logged. A potential alternative could be using queues with some retry mechanism for failed tasks
 - **Improved validation:** validating the IP and MAC addresses sent are actually valid and not just random strings
 - **Adequate Test suite:** both integration tests for the REST endpoints & unit tests
 - **Better migration with rollbacks** to make development smoother
+
+### Other Notes
+
+- The get all computers endpoint expects employee codes to be added as separate query params like so `employee_codes=mmu&employee_codes=ckm` but the swagger
+  definition uses a comma-separated list like so `employee_codes=mmu,ckm`, this doesn't work.

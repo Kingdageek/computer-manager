@@ -1,0 +1,175 @@
+basePath: /api/v1
+definitions:
+  dtos.ComputerDto:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      employee_code:
+        type: string
+      id:
+        type: integer
+      ip_address:
+        type: string
+      mac_address:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  http_errors.HttpError:
+    properties:
+      code:
+        type: string
+      detail:
+        type: string
+      errors:
+        additionalProperties:
+          items:
+            type: string
+          type: array
+        type: object
+      message:
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: API for sysadmins to manage computers in an organization.
+  title: Computer Manager API
+  version: "1.0"
+paths:
+  /computers:
+    get:
+      consumes:
+      - application/json
+      description: Returns list of computers
+      parameters:
+      - collectionFormat: csv
+        description: Filter by employee codes
+        in: query
+        items:
+          type: string
+        name: employee_codes
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dtos.ComputerDto'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http_errors.HttpError'
+      summary: Get all computers
+      tags:
+      - computers
+    post:
+      consumes:
+      - application/json
+      description: Returns the details of the created computer
+      parameters:
+      - description: Computer details to create
+        in: body
+        name: computerDto
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.ComputerDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.ComputerDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http_errors.HttpError'
+      summary: Create a computer
+      tags:
+      - computers
+  /computers/{id}:
+    delete:
+      description: Returns a boolean indicating success
+      parameters:
+      - description: Computer ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Delete computer by ID
+      tags:
+      - computers
+    get:
+      description: Returns the details of one computer
+      parameters:
+      - description: Computer ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.ComputerDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http_errors.HttpError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http_errors.HttpError'
+      summary: Get computer by ID
+      tags:
+      - computers
+    put:
+      consumes:
+      - application/json
+      description: Returns the details of the updated computer
+      parameters:
+      - description: Computer ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Computer details to update
+        in: body
+        name: computerDto
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.ComputerDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.ComputerDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http_errors.HttpError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/http_errors.HttpError'
+      summary: Update computer by ID
+      tags:
+      - computers
+swagger: "2.0"

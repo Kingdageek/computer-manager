@@ -21,6 +21,16 @@ func NewComputerController(svcs *services.Services) *ComputerController {
 	}
 }
 
+// GetAll godoc
+// @Summary Get all computers
+// @Description Returns list of computers
+// @Param employee_codes query []string false "Filter by employee codes"
+// @Accept json
+// @Tags computers
+// @Produce json
+// @Success 200 {array} dtos.ComputerDto
+// @Failure 400 {object} http_errors.HttpError
+// @Router /computers [get]
 func (c *ComputerController) GetAll(ginCtx *gin.Context) {
 	reqCtx := ginCtx.Request.Context()
 	var req requests.GetAllComputersRequest
@@ -34,6 +44,16 @@ func (c *ComputerController) GetAll(ginCtx *gin.Context) {
 	api.SuccessResponse(ginCtx, data)
 }
 
+// GetByID godoc
+// @Summary Get computer by ID
+// @Description Returns the details of one computer
+// @Param id path int true "Computer ID"
+// @Tags computers
+// @Produce json
+// @Success 200 {object} dtos.ComputerDto
+// @Failure 400 {object} http_errors.HttpError
+// @Failure 404 {object} http_errors.HttpError
+// @Router /computers/{id} [get]
 func (c *ComputerController) GetByID(ginCtx *gin.Context) {
 	reqCtx := ginCtx.Request.Context()
 	computerIdStr := ginCtx.Param("id")
@@ -60,6 +80,16 @@ func (c *ComputerController) validateComputerDto(dto *dtos.ComputerDto) error {
 	return nil
 }
 
+// Create godoc
+// @Summary Create a computer
+// @Description Returns the details of the created computer
+// @Tags computers
+// @Accept json
+// @Produce json
+// @Param computerDto body dtos.ComputerDto true "Computer details to create"
+// @Success 200 {object} dtos.ComputerDto
+// @Failure 400 {object} http_errors.HttpError
+// @Router /computers [post]
 func (c *ComputerController) Create(ginCtx *gin.Context) {
 	ctx := ginCtx.Request.Context()
 	var computerDto dtos.ComputerDto
@@ -82,6 +112,18 @@ func (c *ComputerController) Create(ginCtx *gin.Context) {
 	api.SuccessResponse(ginCtx, data)
 }
 
+// Update godoc
+// @Summary Update computer by ID
+// @Description Returns the details of the updated computer
+// @Tags computers
+// @Accept json
+// @Produce json
+// @Param id path int true "Computer ID"
+// @Param computerDto body dtos.ComputerDto true "Computer details to update"
+// @Success 200 {object} dtos.ComputerDto
+// @Failure 400 {object} http_errors.HttpError
+// @Failure 404 {object} http_errors.HttpError
+// @Router /computers/{id} [put]
 func (c *ComputerController) Update(ginCtx *gin.Context) {
 	computerIdStr := ginCtx.Param("id")
 	computerId, err := strconv.ParseUint(computerIdStr, 10, 0)
@@ -110,6 +152,14 @@ func (c *ComputerController) Update(ginCtx *gin.Context) {
 	api.SuccessResponse(ginCtx, data)
 }
 
+// Delete godoc
+// @Summary Delete computer by ID
+// @Description Returns a boolean indicating success
+// @Param id path int true "Computer ID"
+// @Tags computers
+// @Produce json
+// @Success 200
+// @Router /computers/{id} [delete]
 func (c *ComputerController) Delete(ginCtx *gin.Context) {
 	reqCtx := ginCtx.Request.Context()
 	computerIdStr := ginCtx.Param("id")
