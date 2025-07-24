@@ -1,7 +1,6 @@
 package api_clients
 
 import (
-	"context"
 	"log"
 )
 
@@ -21,14 +20,17 @@ type NotifyAdminRequest struct {
 	Message      string `json:"message"`
 }
 
-func (c *AdminAlarmClient) NotifyAdmin(ctx context.Context, employeeCode, message string) error {
+func (c *AdminAlarmClient) NotifyAdmin(employeeCode, message string) error {
 	req := NotifyAdminRequest{
 		Level:        "warning",
 		EmployeeAbbr: employeeCode,
 		Message:      message,
 	}
+	headers := map[string]string{
+		"Content-Type": "application/json",
+	}
 
-	err := c.Request(ctx, "POST", "/notify", req, nil, nil)
+	err := c.Request("POST", "/notify", req, nil, headers)
 	if err != nil {
 		log.Printf("Error notifying admin: %v", err)
 		return err

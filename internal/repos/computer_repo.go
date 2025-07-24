@@ -1,6 +1,7 @@
 package repos
 
 import (
+	"computer-manager/internal/api/requests"
 	"computer-manager/internal/dtos"
 	"computer-manager/internal/models"
 	"context"
@@ -27,9 +28,13 @@ func (cr *ComputerRepository) GetComputerByID(ctx context.Context, id uint, tx *
 	return &computer, nil
 }
 
-func (cr *ComputerRepository) GetAllComputers(ctx context.Context) ([]*models.Computer, error) {
+func (cr *ComputerRepository) GetAllComputers(ctx context.Context, req *requests.GetAllComputersRequest) ([]*models.Computer, error) {
 	var computers []*models.Computer
-	if err := cr.db.WithContext(ctx).Find(&computers).Error; err != nil {
+	query := cr.db.WithContext(ctx)
+	if len(req.EmployeeCodes) > 0 {
+		query = query.Where("employee_code IN ?", req.EmployeeCodes)
+	}
+	if err := query.Find(&computers).Error; err != nil {
 		return nil, err
 	}
 	return computers, nil

@@ -2,6 +2,7 @@ package services
 
 import (
 	"computer-manager/internal/api/http_errors"
+	"computer-manager/internal/api/requests"
 	"computer-manager/internal/api_clients"
 	"computer-manager/internal/dtos"
 	"computer-manager/internal/helpers"
@@ -38,8 +39,8 @@ func (cs *ComputerService) GetComputerByID(ctx context.Context, id uint) (*dtos.
 	return computer.ToDto(), nil
 }
 
-func (cs *ComputerService) GetAllComputers(ctx context.Context) ([]*dtos.ComputerDto, error) {
-	computers, err := cs.repo.GetAllComputers(ctx)
+func (cs *ComputerService) GetAllComputers(ctx context.Context, req *requests.GetAllComputersRequest) ([]*dtos.ComputerDto, error) {
+	computers, err := cs.repo.GetAllComputers(ctx, req)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +67,7 @@ func (cs *ComputerService) CreateComputer(ctx context.Context, dto *dtos.Compute
 		return nil, err
 	}
 	if dto.EmployeeCode != nil && *dto.EmployeeCode != "" {
-		go cs.runEmployeeAssignmentCheck(ctx, *dto.EmployeeCode)
+		cs.runEmployeeAssignmentCheck(ctx, *dto.EmployeeCode)
 	}
 	return computer.ToDto(), nil
 }
@@ -103,7 +104,7 @@ func (cs *ComputerService) UpdateComputer(ctx context.Context, id uint, dto *dto
 	// Check if the employee code has changed and it's different from what was previously assigned
 	if dto.EmployeeCode != nil && *dto.EmployeeCode != "" {
 		if prevComputer.EmployeeCode == nil || (prevComputer != nil && *prevComputer.EmployeeCode != *dto.EmployeeCode) {
-			go cs.runEmployeeAssignmentCheck(ctx, *dto.EmployeeCode)
+			cs.runEmployeeAssignmentCheck(ctx, *dto.EmployeeCode)
 		}
 	}
 	return computer.ToDto(), nil
@@ -119,11 +120,7 @@ func (cs *ComputerService) runEmployeeAssignmentCheck(ctx context.Context, emplo
 	if count >= uint(adminAlertThreshold) {
 		log.Printf("Employee code %s has %d computers assigned, exceeding the threshold of %d", employeeCode, count, adminAlertThreshold)
 		message := fmt.Sprintf("Employee code %s has too many computers assigned (%d)", employeeCode, count)
-		err := cs.adminAlarmClient.NotifyAdmin(ctx, employeeCode, message)
-		if err != nil {
-			log.Printf("Error sending alarm for employee code %s: %v", employeeCode, err)
-			return err
-		}
+		go cs.adminAlarmClient.NotifyAdmin(employeeCode, message)
 	}
 	return nil
 }

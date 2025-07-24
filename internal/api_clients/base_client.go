@@ -3,7 +3,6 @@ package api_clients
 import (
 	"bytes"
 	"computer-manager/internal/config"
-	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -37,14 +36,14 @@ func NewBaseClient(baseURL string) BaseClient {
 	return c
 }
 
-func (c *BaseClient) Request(ctx context.Context, method, path string, body any, response any, headers map[string]string) error {
+func (c *BaseClient) Request(method, path string, body any, response any, headers map[string]string) error {
 	url := fmt.Sprintf("%s%s", c.BaseURL, path)
 	var req *http.Request
 	var err error
 
 	switch v := body.(type) {
 	case *bytes.Buffer:
-		req, err = http.NewRequestWithContext(ctx, method, url, v)
+		req, err = http.NewRequest(method, url, v)
 		if err != nil {
 			return fmt.Errorf("failed to create request with multipart form data: %w", err)
 		}
@@ -62,7 +61,7 @@ func (c *BaseClient) Request(ctx context.Context, method, path string, body any,
 				}
 			}
 		}
-		req, err = http.NewRequestWithContext(ctx, method, url, bodyReader)
+		req, err = http.NewRequest(method, url, bodyReader)
 		if err != nil {
 			return fmt.Errorf("failed to create request: %w", err)
 		}

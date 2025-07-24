@@ -17,7 +17,6 @@ include_ext = ["go"]
 
 # Explicitly include ONLY access-control-related directories
 include_dir = [
-    "cmd",  # main.go
     "internal"
 ]
 # Exclude everything else

@@ -9,8 +9,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      # redis:
-      #   condition: service_healthy
     networks:
       - app-net
     env_file:
@@ -23,7 +21,7 @@ services:
   admin-alarm:
     image: greenbone/exercise-admin-notification
     ports:
-      - "8080:8080"
+      - "8081:8080"
     networks:
       - app-net
 
@@ -46,24 +44,10 @@ services:
     networks:
       - app-net
 
-  # redis:
-  #   image: redis:7-alpine
-  #   container_name: redis-cache
-  #   ports:
-  #     - "63799:6379"
-  #   volumes:
-  #     - redis-data:/data
-  #   command: [ "redis-server", "--save", "60", "1", "--loglevel", "warning" ]
-  #   healthcheck:
-  #     test: [ "CMD", "redis-cli", "ping" ]
-  #     interval: 5s
-  #     timeout: 5s
-  #     retries: 5
-
-  #   networks:
-  #     - app-net
-
 networks:
-  bridge:
-    - app-net
+  app-net:
+    driver: bridge
+
+volumes:
+  postgres-data:
 

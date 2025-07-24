@@ -14,5 +14,4 @@ func CreateRoutes(router *gin.Engine, handlers *controllers.Controllers) {
 	v1.POST("/computers", handlers.Computer.Create)
 	v1.PUT("/computers/:id", handlers.Computer.Update)
 	v1.DELETE("/computers/:id", handlers.Computer.Delete)
-	v1.POST("/computers/:id/employees", handlers.Computer.AssignEmployee)
 }

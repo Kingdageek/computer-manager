@@ -3,6 +3,7 @@ package controllers
 import (
 	"computer-manager/internal/api"
 	"computer-manager/internal/api/http_errors"
+	"computer-manager/internal/api/requests"
 	"computer-manager/internal/dtos"
 	"computer-manager/internal/services"
 	"strconv"
@@ -21,10 +22,11 @@ func NewComputerController(svcs *services.Services) *ComputerController {
 }
 
 func (c *ComputerController) GetAll(ginCtx *gin.Context) {
-	// so request can be cancelled if the client disconnects
-	// or if the server is shutting down
 	reqCtx := ginCtx.Request.Context()
-	data, err := c.svc.GetAllComputers(reqCtx)
+	var req requests.GetAllComputersRequest
+	employeeCodes := ginCtx.QueryArray("employee_codes")
+	req.EmployeeCodes = employeeCodes
+	data, err := c.svc.GetAllComputers(reqCtx, &req)
 	if err != nil {
 		api.ErrorResponse(ginCtx, err)
 		return
@@ -123,5 +125,3 @@ func (c *ComputerController) Delete(ginCtx *gin.Context) {
 	}
 	api.SuccessResponse(ginCtx, data)
 }
-
-func (c *ComputerController) AssignEmployee(ginCtx *gin.Context) {}
