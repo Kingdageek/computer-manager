@@ -21,6 +21,8 @@ Simple golang backend service for system admins to manage computers in their org
 - Try the APIs on swagger by visiting: `localhost:8000/swagger/index.html`
 - The database should be auto-created and the `computers` table should auto-migrate
 
+If you get any error during build related to the `computer-manager/docs` package not being part of `$GOROOT`, go to the [routes.go](./internal/api/routes/routes.go) file and comment out this line in the import: `_ "computer-manager/docs"`. Re-run `docker compose up` then uncomment it to see the swagger page.
+
 ### Potential Improvements
 
 - **Authentication & Authorization** to verify the identity of the sysadmin and to ensure they have the proper permission to perform any action
