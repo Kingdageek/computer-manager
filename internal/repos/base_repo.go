@@ -31,3 +31,8 @@ func (b *BaseRepository) PickDbHandler(tx *gorm.DB) *gorm.DB {
 	}
 	return b.db
 }
+
+// GetDb returns the underlying database connection, useful for transactions
+func (b *BaseRepository) GetDb() *gorm.DB {
+	return b.db
+}

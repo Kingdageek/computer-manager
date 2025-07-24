@@ -69,7 +69,7 @@ func NewConfig() (*Config, error) {
 		},
 		ThirdPartyServices: ThirdPartyServicesConfig{
 			AdminAlarm: AdminAlarmConfig{
-				BaseURL: helpers.GetEnv("ADMIN_ALARM_BASE_URL", "admin-alarm:8080"),
+				BaseURL: helpers.GetEnv("ADMIN_ALARM_BASE_URL", "admin-alarm:8080/api"),
 			},
 		},
 	}, nil
