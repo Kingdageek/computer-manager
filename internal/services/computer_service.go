@@ -2,6 +2,7 @@ package services
 
 import (
 	"computer-manager/internal/api/http_errors"
+	"computer-manager/internal/api_clients"
 	"computer-manager/internal/dtos"
 	"computer-manager/internal/repos"
 	"context"
@@ -14,11 +15,13 @@ import (
 
 type ComputerService struct {
 	repo *repos.ComputerRepository
+	adminAlarmClient *api_clients.AdminAlarmClient
 }
 
-func NewComputerService(repositories *repos.Repositories) *ComputerService {
+func NewComputerService(repositories *repos.Repositories, apiClients *api_clients.ApiClients) *ComputerService {
 	return &ComputerService{
 		repo: repositories.ComputerRepo,
+		adminAlarmClient: apiClients.AdminAlarm,
 	}
 }
 

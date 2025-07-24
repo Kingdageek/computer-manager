@@ -11,7 +11,8 @@ func main() {
 	cfg := bootstrap.InitializeConfig()
 	db := bootstrap.InitializeDB(cfg)
 	repos := bootstrap.InitializeRepos(db)
-	services := bootstrap.InitializeServices(repos, cfg)
+	apiClients := bootstrap.InitializeApiClients(cfg)
+	services := bootstrap.InitializeServices(repos, cfg, apiClients)
 	router := bootstrap.InitializeControllersAndRoutes(services, cfg)
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{

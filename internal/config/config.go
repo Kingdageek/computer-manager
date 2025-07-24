@@ -6,10 +6,11 @@ import (
 )
 
 type Config struct {
-	ProjectRoot string
-	Server      ServerConfig
-	Database    DatabaseConfig
-	Cache       CacheConfig
+	ProjectRoot        string
+	Server             ServerConfig
+	Database           DatabaseConfig
+	Cache              CacheConfig
+	ThirdPartyServices ThirdPartyServicesConfig
 }
 
 type ServerConfig struct {
@@ -36,6 +37,14 @@ type CacheConfig struct {
 	CleanupPeriod time.Duration
 }
 
+type ThirdPartyServicesConfig struct {
+	AdminAlarm AdminAlarmConfig
+}
+
+type AdminAlarmConfig struct {
+	BaseURL string
+}
+
 func NewConfig() (*Config, error) {
 	return &Config{
 		ProjectRoot: helpers.GetEnv("PROJECT_ROOT", "/app"),
@@ -57,6 +66,11 @@ func NewConfig() (*Config, error) {
 			Port:     helpers.GetEnv("REDIS_PORT", "6379"),
 			DB:       helpers.GetEnv("REDIS_DB", 0),
 			Password: helpers.GetEnv("REDIS_PASSWORD", ""),
+		},
+		ThirdPartyServices: ThirdPartyServicesConfig{
+			AdminAlarm: AdminAlarmConfig{
+				BaseURL: helpers.GetEnv("ADMIN_ALARM_BASE_URL", "admin-alarm:8080"),
+			},
 		},
 	}, nil
 }
