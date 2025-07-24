@@ -33,3 +33,10 @@ func (cr *ComputerRepository) GetAllComputers(ctx context.Context) ([]*models.Co
 	}
 	return computers, nil
 }
+
+func (cr *ComputerRepository) DeleteComputerByID(reqCtx context.Context, id uint) error {
+	if err := cr.db.WithContext(reqCtx).Delete(&models.Computer{}, id).Error; err != nil {
+		return err
+	}
+	return nil
+}

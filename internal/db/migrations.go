@@ -1,6 +1,7 @@
 package db
 
 import (
+	"computer-manager/internal/models"
 	"log"
 	"time"
 
@@ -8,7 +9,9 @@ import (
 )
 
 // migrationsRegistry holds a slice of gorm models that need to be migrated.
-var migrationsRegistry = []any{}
+var migrationsRegistry = []any{
+	models.Computer{},
+}
 
 type Migration struct {
 	ID        uint   `gorm:"primaryKey"`
